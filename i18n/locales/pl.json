@@ -1,0 +1,87 @@
+{
+  "common": {
+    "brand": "FAJKA BAR",
+    "city": "WARSZAWA",
+    "address": "ŚWIĘTOKRZYSKA 14, 00-050 WARSZAWA",
+    "phone": "+48 123 456 789",
+    "bookTable": "ZAREZERWUJ STOLIK",
+    "exploreMenu": "SPRAWDŹ MENU",
+    "location": "LOKALIZACJA",
+    "menu": "MENU",
+    "backToMenu": "POWRÓT DO MENU",
+    "swipe": "Swipe",
+    "browseCategories": "Przeglądaj kategorie"
+  },
+  "hero": {
+    "subtitle": "Prestiż, klimat i najlepsza szisza w sercu stolicy."
+  },
+  "menu": {
+    "signature": "Signature Experience",
+    "choosePoison": "Wybierz swoją truciznę",
+    "categories": {
+      "shisha": "SHISHA",
+      "beer": "PIWO",
+      "whiskey": "WHISKY",
+      "shots": "SHOTY",
+      "cocktails": "KOKTAJLE",
+      "alcohol": "ALKOHOL",
+      "mocktails": "MOBTEL",
+      "coldDrinks": "ZIMNE NAPOJE",
+      "hotDrinks": "GORĄCE NAPOJE",
+      "food": "JEDZENIE",
+      "desserts": "DESERY"
+    },
+    "shisha": {
+      "withAlcohol": "SZISZA Z ALKOHOLEM",
+      "withMilk": "Szisza z mlekiem",
+      "withWine": "Szisza z winem",
+      "withVodka": "Szisza z wódką",
+      "withWhisky": "Szisza z whisky"
+    }
+  },
+  "atmosphere": {
+    "title": "Atmosfera",
+    "follow": "Podążaj za dymem @fajka.bar",
+    "viewIg": "ZOBACZ NA IG",
+    "vibe": "Klimat"
+  },
+  "footer": {
+    "brandDesc": "Sanktuarium dla entuzjastów sziszy w sercu Warszawy. Elegancja w każdym oddechu, doskonałość w każdej usłudze.",
+    "locationInfo": "Informacje o lokalizacji",
+    "openingHours": "Godziny ortwarcia",
+    "warsawCenter": "CENTRUM WARSZAWY",
+    "monThu": "Pon - Czw",
+    "friSat": "Pt - Sob",
+    "sun": "Niedz",
+    "getDirections": "DOJAZD",
+    "openInMaps": "Otwórz w Mapach Google"
+  },
+  "editor": {
+    "liveEditor": "Live Editor",
+    "controlPanel": "Panel Sterowania",
+    "preview": "Podgląd",
+    "editor": "Edytor",
+    "exportJson": "Eksportuj JSON",
+    "importJson": "Importuj JSON",
+    "resetAll": "Resetuj wszystko",
+    "add": "Dodaj",
+    "remove": "Usuń",
+    "up": "Góra",
+    "down": "Dół",
+    "brand": "Marka",
+    "title": "Tytuł",
+    "subtitle": "Podtytuł",
+    "categories": "Kategorie",
+    "items": "Pozycje",
+    "itemName": "Nazwa pozycji",
+    "description": "Opis",
+    "price": "Cena",
+    "tag": "Tag",
+    "uploadImage": "Prześlij zdjęcie",
+    "removeCategory": "Usuń kategorię",
+    "removeItem": "Usuń pozycję",
+    "mainCategory": "Główna kategoria",
+    "selection": "Wybór",
+    "itemsCount": "{{count}} pozycji"
+  }
+}

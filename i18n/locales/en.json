@@ -1,0 +1,87 @@
+{
+  "common": {
+    "brand": "FAJKA BAR",
+    "city": "WARSAW",
+    "address": "ŚWIĘTOKRZYSKA 14, 00-050 WARSAW",
+    "phone": "+48 123 456 789",
+    "bookTable": "BOOK A TABLE",
+    "exploreMenu": "EXPLORE MENU",
+    "location": "LOCATION",
+    "menu": "MENU",
+    "backToMenu": "BACK TO MENU",
+    "swipe": "Swipe",
+    "browseCategories": "Browse categories"
+  },
+  "hero": {
+    "subtitle": "Prestige, atmosphere and the best shisha in the heart of the capital."
+  },
+  "menu": {
+    "signature": "Signature Experience",
+    "choosePoison": "Choose your poison",
+    "categories": {
+      "shisha": "SHISHA",
+      "beer": "BEER",
+      "whiskey": "WHISKY",
+      "shots": "SHOTS",
+      "cocktails": "COCKTAILS",
+      "alcohol": "ALCOHOL",
+      "mocktails": "MOCKTAILS",
+      "coldDrinks": "COLD DRINKS",
+      "hotDrinks": "HOT DRINKS",
+      "food": "FOOD",
+      "desserts": "DESSERTS"
+    },
+    "shisha": {
+      "withAlcohol": "SHISHA WITH ALCOHOL",
+      "withMilk": "Shisha with milk",
+      "withWine": "Shisha with wine",
+      "withVodka": "Shisha with Vodka",
+      "withWhisky": "Shisha with Whisky"
+    }
+  },
+  "atmosphere": {
+    "title": "Atmosphere",
+    "follow": "Follow the smoke @fajka.bar",
+    "viewIg": "VIEW IG FEED",
+    "vibe": "Vibe"
+  },
+  "footer": {
+    "brandDesc": "A sanctuary for shisha enthusiasts in the heart of Warsaw. Elegance in every breath, excellence in every service.",
+    "locationInfo": "Location Info",
+    "openingHours": "Opening Hours",
+    "warsawCenter": "WARSAW CITY CENTER",
+    "monThu": "Mon - Thu",
+    "friSat": "Fri - Sat",
+    "sun": "Sun",
+    "getDirections": "GET DIRECTIONS",
+    "openInMaps": "Open in Google Maps"
+  },
+  "editor": {
+    "liveEditor": "Live Editor",
+    "controlPanel": "Control Panel",
+    "preview": "Preview",
+    "editor": "Editor",
+    "exportJson": "Export JSON",
+    "importJson": "Import JSON",
+    "resetAll": "Reset All",
+    "add": "Add",
+    "remove": "Remove",
+    "up": "Up",
+    "down": "Down",
+    "brand": "Brand",
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "categories": "Categories",
+    "items": "Items",
+    "itemName": "Item name",
+    "description": "Description",
+    "price": "Price",
+    "tag": "Tag",
+    "uploadImage": "Upload Image",
+    "removeCategory": "Remove Category",
+    "removeItem": "Remove Item",
+    "mainCategory": "Main Category",
+    "selection": "Selection",
+    "itemsCount": "{{count}} items"
+  }
+}
