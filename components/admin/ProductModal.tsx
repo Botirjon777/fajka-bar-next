@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import ImagePickerModal from "./ImagePickerModal";
+import ImageUploadField from "./ImageUploadField";
 import { CldImage } from "next-cloudinary";
 
 interface ProductModalProps {
@@ -349,56 +350,12 @@ export default function ProductModal({
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] uppercase font-black tracking-widest text-white/40 ml-4">
-                    Product Visual
-                  </label>
-                  <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-white/5 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
-                      {formData.image ? (
-                        formData.image.includes('cloudinary.com') ? (
-                          <CldImage
-                            src={formData.image}
-                            alt="Preview"
-                            width={300}
-                            height={300}
-                            crop="fill"
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <img
-                            src={formData.image}
-                            alt="Preview"
-                            className="w-full h-full object-cover"
-                          />
-                        )
-                      ) : (
-                        <ImageIcon className="text-white/10" size={32} />
-                      )}
-                    </div>
-                    <div className="flex-1 space-y-3">
-                      <button
-                        type="button"
-                        onClick={() => setShowPicker(true)}
-                        className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold uppercase text-[10px] tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-2"
-                      >
-                        <ImageIcon size={16} />
-                        Select from Gallery
-                      </button>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={formData.image}
-                          onChange={(e) =>
-                            setFormData({ ...formData, image: e.target.value })
-                          }
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-6 text-[11px] text-white/40 focus:outline-none focus:border-primary/50 focus:text-white transition-all font-bold"
-                          placeholder="Or paste URL here..."
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ImageUploadField
+                  value={formData.image}
+                  onChange={(val) => setFormData({ ...formData, image: val })}
+                  onOpenGallery={() => setShowPicker(true)}
+                  label="Product Visual"
+                />
 
                 <div className="pt-6">
                   <button

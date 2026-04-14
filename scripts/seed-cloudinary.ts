@@ -8,10 +8,12 @@ import Product from '../lib/models/Product';
 import dbConnect from '../lib/db';
 
 // Configure Cloudinary
+const cleanEnvVar = (val?: string) => val?.replace(/^["']|["']$/g, '');
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: cleanEnvVar(process.env.CLOUDINARY_CLOUD_NAME),
+  api_key: cleanEnvVar(process.env.CLOUDINARY_API_KEY),
+  api_secret: cleanEnvVar(process.env.CLOUDINARY_API_SECRET),
   secure: true,
 });
 
