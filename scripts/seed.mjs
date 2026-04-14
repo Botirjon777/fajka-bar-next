@@ -58,9 +58,11 @@ async function seed() {
   await Product.deleteMany({});
 
   // Create Admin
-  const hashedPassword = await bcrypt.hash('admin123', 10);
-  await Admin.create({ username: 'admin', password: hashedPassword });
-  console.log('Admin created: admin / admin123');
+  const adminUser = process.env.ADMIN_USERNAME || 'admin';
+  const adminPass = process.env.ADMIN_PASSWORD || 'admin123';
+  const hashedPassword = await bcrypt.hash(adminPass, 10);
+  await Admin.create({ username: adminUser, password: hashedPassword });
+  console.log(`Admin created: ${adminUser}`);
 
   // Categories Setup
   const categoryData = [

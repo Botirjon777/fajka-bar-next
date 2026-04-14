@@ -189,13 +189,32 @@ export default function ProductsPage() {
   );
 }
 
+import { CldImage } from 'next-cloudinary';
+
 function ProductListItem({ product, onEdit, onDelete }: { product: any, onEdit: () => void, onDelete: () => void }) {
+  const isCloudinary = product.image?.includes('cloudinary.com');
+
   return (
     <div className="group p-4 md:p-6 bg-bg-card border border-white/5 hover:border-white/10 rounded-2xl md:rounded-[2.5rem] transition-all flex items-center justify-between">
       <div className="flex items-center gap-6 flex-1">
          {product.image ? (
            <div className="w-16 h-16 rounded-2xl border border-white/5 overflow-hidden shrink-0">
-              <img src={product.image} alt={product.name.en} className="w-full h-full object-cover opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" />
+              {isCloudinary ? (
+                <CldImage 
+                  src={product.image} 
+                  alt={product.name.en} 
+                  width={100} 
+                  height={100} 
+                  crop="fill"
+                  className="w-full h-full object-cover opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" 
+                />
+              ) : (
+                <img 
+                  src={product.image} 
+                  alt={product.name.en} 
+                  className="w-full h-full object-cover opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" 
+                />
+              )}
            </div>
          ) : (
            <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-white/10 shrink-0">

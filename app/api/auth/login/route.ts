@@ -8,13 +8,15 @@ export async function POST(request: Request) {
 
   try {
     const { username, password } = await request.json();
+    const cleanUsername = username?.trim();
+    const cleanPassword = password?.trim();
 
-    const admin = await Admin.findOne({ username });
+    const admin = await Admin.findOne({ username: cleanUsername });
     if (!admin) {
       return Response.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isMatch = await bcrypt.compare(password, admin.password);
+    const isMatch = await bcrypt.compare(cleanPassword, admin.password);
     if (!isMatch) {
       return Response.json({ message: 'Invalid credentials' }, { status: 401 });
     }

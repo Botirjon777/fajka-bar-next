@@ -33,59 +33,77 @@ interface MenuItemProps {
   image?: string;
 }
 
-const MenuItem = ({ name, price, prices, desc, image }: MenuItemProps) => (
-  <div className="group flex items-center gap-4 py-3 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors px-2 rounded-lg">
-    {image && (
-      <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 group-hover:border-primary transition-colors">
-        <img
-          src={image}
-          alt={name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-      </div>
-    )}
-    <div className="flex-1">
-      <div className="flex justify-between items-baseline mb-1">
-        <div className="flex flex-col">
-          <h4 className="text-base md:text-lg font-serif text-white group-hover:text-primary transition-colors pr-4">
-            {name}
-          </h4>
-          {desc && (
-            <p className="text-white/40 text-[10px] italic font-light mt-0.5 max-w-[200px] md:max-w-xs">
-              {desc}
-            </p>
+import { CldImage } from 'next-cloudinary';
+
+const MenuItem = ({ name, price, prices, desc, image }: MenuItemProps) => {
+  const isCloudinary = image?.includes('cloudinary.com');
+
+  return (
+    <div className="group flex items-center gap-4 py-3 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors px-2 rounded-lg">
+      {image && (
+        <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 group-hover:border-primary transition-colors bg-white/5">
+          {isCloudinary ? (
+            <CldImage
+              src={image}
+              alt={name}
+              width={100}
+              height={100}
+              crop="fill"
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src={image}
+              alt={name}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
           )}
         </div>
+      )}
+      <div className="flex-1">
+        <div className="flex justify-between items-baseline mb-1">
+          <div className="flex flex-col">
+            <h4 className="text-base md:text-lg font-serif text-white group-hover:text-primary transition-colors pr-4">
+              {name}
+            </h4>
+            {desc && (
+              <p className="text-white/40 text-[10px] italic font-light mt-0.5 max-w-[200px] md:max-w-xs">
+                {desc}
+              </p>
+            )}
+          </div>
 
-        <div className="flex-1 border-b border-dotted border-white/10 mx-2 mb-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex-1 border-b border-dotted border-white/10 mx-2 mb-1 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-        <div
-          className={cn(
-            "flex flex-col items-end gap-1",
-            prices && "translate-y-1",
-          )}
-        >
-          {price && (
-            <span className="text-primary font-black text-lg whitespace-nowrap">
-              {price}
-            </span>
-          )}
-          {prices?.map((p, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-tighter text-white/40 font-bold">
-                {p.label}
+          <div
+            className={cn(
+              "flex flex-col items-end gap-1",
+              prices && "translate-y-1",
+            )}
+          >
+            {price && (
+              <span className="text-primary font-black text-lg whitespace-nowrap">
+                {price}
               </span>
-              <span className="text-primary font-black text-lg md:text-xl whitespace-nowrap">
-                {p.value}
-              </span>
-            </div>
-          ))}
+            )}
+            {prices?.map((p, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <span className="text-[10px] uppercase tracking-tighter text-white/40 font-bold">
+                  {p.label}
+                </span>
+                <span className="text-primary font-black text-lg md:text-xl whitespace-nowrap">
+                  {p.value}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const SectionTitle = ({
   title,
@@ -136,32 +154,49 @@ const CategoryCard = ({
   title: string;
   image: string;
   id: string;
-}) => (
-  <motion.a
-    href={`#${id}`}
-    whileHover={{ y: -5, scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    className="relative aspect-[2.4/1] rounded-3xl overflow-hidden border border-white/10 group"
-  >
-    <img
-      src={image}
-      alt={title}
-      className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500"
-    />
-    <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
-    <div className="absolute bottom-6 left-6 right-6">
-      <div className="flex items-center justify-between">
-        <h4 className="text-xl md:text-2xl font-serif font-black text-white italic tracking-tighter uppercase">
-          {title}
-        </h4>
-        <ChevronRight
-          className="text-primary opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all"
-          size={24}
+}) => {
+  const isCloudinary = image?.includes('cloudinary.com');
+
+  return (
+    <motion.a
+      href={`#${id}`}
+      whileHover={{ y: -5, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="relative aspect-[2.4/1] rounded-3xl overflow-hidden border border-white/10 group bg-white/5"
+    >
+      {isCloudinary ? (
+        <CldImage
+          src={image}
+          alt={title}
+          width={800}
+          height={400}
+          crop="fill"
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500"
         />
+      ) : (
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500"
+        />
+      )}
+      <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
+      <div className="absolute bottom-6 left-6 right-6">
+        <div className="flex items-center justify-between">
+          <h4 className="text-xl md:text-2xl font-serif font-black text-white italic tracking-tighter uppercase">
+            {title}
+          </h4>
+          <ChevronRight
+            className="text-primary opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all"
+            size={24}
+          />
+        </div>
       </div>
-    </div>
-  </motion.a>
-);
+    </motion.a>
+  );
+};
 
 const iconMap: Record<string, React.ReactNode> = {
   "section-shisha": <Flame size={20} />,

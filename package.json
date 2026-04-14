@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "seed:cloudinary": "tsx scripts/seed-cloudinary.ts",
+    "update-admin": "tsx scripts/update-admin.ts"
   },
   "dependencies": {
     "axios": "^1.15.0",
     "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.9.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
@@ -21,6 +24,7 @@
     "lucide-react": "^1.8.0",
     "mongoose": "^9.4.1",
     "next": "16.2.3",
+    "next-cloudinary": "^6.17.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-i18next": "^17.0.2",
@@ -37,6 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

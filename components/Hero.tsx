@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { CldImage } from 'next-cloudinary';
 
 export default function Hero() {
   const { t } = useTranslation();
@@ -24,9 +25,12 @@ export default function Hero() {
             <div className="h-px w-8 bg-primary/40" />
           </div>
 
-          <img 
-            src="/images/logo.webp" 
+          <CldImage 
+            src="https://res.cloudinary.com/dwmodrs7i/image/upload/v1776147870/fajka-bar/logo.webp" 
             alt="Fajka Bar Logo" 
+            width={700}
+            height={400}
+            priority
             className="w-full max-w-[400px] md:max-w-[700px] mx-auto mb-12 opacity-90 brightness-110 drop-shadow-[0_0_30px_rgba(212,175,55,0.2)]"
           />
 
