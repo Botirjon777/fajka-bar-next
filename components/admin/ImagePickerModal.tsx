@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -9,8 +9,10 @@ import {
   Check,
   Loader2,
   RefreshCw,
+  Upload,
 } from "lucide-react";
 import axios from "axios";
+import { CldImage } from 'next-cloudinary';
 
 interface ImagePickerModalProps {
   isOpen: boolean;
@@ -29,6 +31,8 @@ export default function ImagePickerModal({
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchImages = async () => {
     setLoading(true);
@@ -58,6 +62,37 @@ export default function ImagePickerModal({
     fetchImages();
   };
 
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post("/api/admin/images", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
+      const newImageUrl = response.data.secure_url;
+      setImages(prev => [newImageUrl, ...prev]);
+      // Auto-select the newly uploaded image
+      onSelect(newImageUrl);
+      onClose();
+    } catch (error) {
+      console.error("Upload failed:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -83,10 +118,25 @@ export default function ImagePickerModal({
                   Select Asset
                 </h3>
                 <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">
-                  Available in /public/images
+                  Cloudinary Library
                 </p>
               </div>
               <div className="flex items-center gap-4">
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  className="hidden" 
+                  accept="image/*"
+                />
+                <button
+                  onClick={handleUploadClick}
+                  disabled={uploading}
+                  className="flex items-center gap-2 px-6 py-3 bg-primary text-black font-black uppercase text-[10px] tracking-widest rounded-xl hover:brightness-110 transition-all disabled:opacity-50"
+                >
+                  {uploading ? <Loader2 className="animate-spin" size={16} /> : <Upload size={16} />}
+                  {uploading ? "Uploading..." : "Upload New"}
+                </button>
                 <button
                   onClick={handleRefresh}
                   className={`p-3 rounded-xl bg-white/5 text-white/40 hover:text-white transition-all ${refreshing ? "animate-spin" : ""}`}
@@ -113,7 +163,7 @@ export default function ImagePickerModal({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search images by name..."
+                  placeholder="Search images..."
                   className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-14 pr-6 text-white focus:outline-none focus:border-primary/50 transition-all font-bold text-sm"
                 />
               </div>
@@ -125,7 +175,7 @@ export default function ImagePickerModal({
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
                   <Loader2 className="animate-spin text-primary" size={40} />
                   <p className="text-white/20 uppercase tracking-widest font-black text-[10px]">
-                    Scanning Directory...
+                    Connecting to Cloudinary...
                   </p>
                 </div>
               ) : filteredImages.length === 0 ? (
@@ -137,15 +187,17 @@ export default function ImagePickerModal({
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                  {filteredImages.map((img) => {
-                    const isSelected = currentValue === `/images/${img}`;
+                  {filteredImages.map((imgUrl) => {
+                    const isSelected = currentValue === imgUrl;
+                    const fileName = imgUrl.split('/').pop()?.split('?')[0] || "image";
+                    
                     return (
                       <motion.button
-                        key={img}
+                        key={imgUrl}
                         whileHover={{ y: -5 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => {
-                          onSelect(`/images/${img}`);
+                          onSelect(imgUrl);
                           onClose();
                         }}
                         className={`group relative aspect-square rounded-2xl overflow-hidden border-2 transition-all ${
@@ -154,18 +206,29 @@ export default function ImagePickerModal({
                             : "border-white/5 hover:border-white/20"
                         }`}
                       >
-                        <img
-                          src={`/images/${img}`}
-                          alt={img}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
+                        {imgUrl.includes('cloudinary') ? (
+                          <CldImage
+                            src={imgUrl}
+                            alt={fileName}
+                            width={300}
+                            height={300}
+                            crop="fill"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        ) : (
+                          <img
+                            src={imgUrl}
+                            alt={fileName}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        )}
                         <div
                           className={`absolute inset-0 bg-primary/20 transition-opacity ${isSelected ? "opacity-100" : "opacity-0"}`}
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                         <div className="absolute bottom-3 left-3 right-3 truncate text-[9px] font-black uppercase tracking-tighter text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                          {img}
+                          {fileName}
                         </div>
 
                         {isSelected && (

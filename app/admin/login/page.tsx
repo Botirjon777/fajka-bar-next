@@ -66,25 +66,37 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase font-black tracking-widest text-white/40 ml-4">Username</label>
+              <label 
+                htmlFor="username"
+                className="text-[10px] uppercase font-black tracking-widest text-white/40 ml-4 cursor-pointer hover:text-primary transition-colors"
+              >
+                Username
+              </label>
               <input
+                id="username"
                 type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-primary/50 transition-all font-bold placeholder:text-white/5 shadow-inner"
-                placeholder="ADMINISTRATOR"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/20 shadow-inner"
+                placeholder="Enter username"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] uppercase font-black tracking-widest text-white/40 ml-4">Password</label>
+              <label 
+                htmlFor="password"
+                className="text-[10px] uppercase font-black tracking-widest text-white/40 ml-4 cursor-pointer hover:text-primary transition-colors"
+              >
+                Password
+              </label>
               <input
+                id="password"
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-primary/50 transition-all font-bold placeholder:text-white/5 shadow-inner"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/20 shadow-inner"
                 placeholder="••••••••"
               />
             </div>

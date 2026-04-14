@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import ImagePickerModal from "./ImagePickerModal";
+import { CldImage } from "next-cloudinary";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -355,11 +356,22 @@ export default function ProductModal({
                   <div className="flex flex-col md:flex-row gap-4 md:gap-6">
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-white/5 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
                       {formData.image ? (
-                        <img
-                          src={formData.image}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
+                        formData.image.includes('cloudinary.com') ? (
+                          <CldImage
+                            src={formData.image}
+                            alt="Preview"
+                            width={300}
+                            height={300}
+                            crop="fill"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <img
+                            src={formData.image}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        )
                       ) : (
                         <ImageIcon className="text-white/10" size={32} />
                       )}

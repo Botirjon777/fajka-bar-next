@@ -28,7 +28,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-4">
             <a
-              href="https://www.instagram.com/fajka.bar"
+              href="https://www.instagram.com/fajka_bar?igsh=aG1tbmZ0czd6YWNv"
               target="_blank"
               rel="noreferrer"
               className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary transition-all border border-white/10"
@@ -60,10 +60,6 @@ export default function Footer() {
                     {t('footer.warsawCenter')}
                   </span>
                 </div>
-              </li>
-              <li className="flex items-center gap-4 text-white/60 group hover:text-white transition-colors">
-                <Phone size={24} className="text-primary shrink-0" />
-                <span className="text-xl font-serif">{t('common.phone')}</span>
               </li>
             </ul>
           </div>

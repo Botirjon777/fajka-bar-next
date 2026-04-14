@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUp } from "lucide-react";
 import Sidebar from "./AdminSidebar";
 
 export default function AdminLayout({
@@ -11,11 +11,35 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mainElement = mainRef.current;
+    if (!mainElement) return;
+
+    const handleScroll = () => {
+      setShowScrollTop(mainElement.scrollTop > 300);
+    };
+
+    mainElement.addEventListener("scroll", handleScroll);
+    return () => mainElement.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    mainRef.current?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex overflow-hidden">
       {/* Main Content */}
-      <main className="flex-1 relative overflow-y-auto h-screen custom-scrollbar">
+      <main 
+        ref={mainRef}
+        className="flex-1 relative overflow-y-auto h-screen custom-scrollbar"
+      >
         {/* Mobile Header */}
         <header className="lg:hidden p-4 glass flex items-center justify-between sticky top-0 z-30">
           <h2 className="text-lg font-serif font-black italic tracking-tighter">
@@ -30,6 +54,22 @@ export default function AdminLayout({
         </header>
 
         <div className="p-2.5 md:p-12 lg:p-20 max-w-7xl mx-auto">{children}</div>
+
+        {/* Scroll to Top Button */}
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: 20 }}
+              onClick={scrollToTop}
+              className="fixed bottom-10 right-10 z-50 w-14 h-14 bg-primary text-black rounded-2xl shadow-2xl shadow-primary/20 flex items-center justify-center hover:brightness-110 active:scale-95 transition-all group lg:bottom-12 lg:right-12"
+              title="Scroll to Top"
+            >
+              <ArrowUp size={24} strokeWidth={3} className="group-hover:-translate-y-1 transition-transform" />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </main>
 
       <aside className="hidden lg:block w-[350px] shrink-0">

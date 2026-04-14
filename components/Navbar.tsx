@@ -55,13 +55,6 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             {i18n.language === "pl" ? "EN" : "PL"}
           </button>
 
-          <a
-            href={`tel:${t("common.phone")}`}
-            className="hidden sm:flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-full text-[10px] font-bold tracking-widest transition-all"
-          >
-            <Phone size={12} />
-            {t("common.phone")}
-          </a>
 
           <button
             onClick={onMenuClick}
