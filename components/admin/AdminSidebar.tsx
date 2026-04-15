@@ -9,7 +9,8 @@ import {
   ListOrdered,
   LogOut,
   X,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { cn } from '@/lib/utils';
@@ -33,6 +34,7 @@ export default function AdminSidebar({ onClose }: SidebarProps) {
     { href: '/admin/order', icon: <ListOrdered size={20} />, label: 'Menu Order' },
     { href: '/admin/categories', icon: <Layers size={20} />, label: 'Categories' },
     { href: '/admin/products', icon: <GlassWater size={20} />, label: 'Products' },
+    { href: '/admin/settings', icon: <Globe size={20} />, label: 'Settings' },
   ];
 
   return (

@@ -62,6 +62,7 @@ interface MenuState {
   createProduct: (data: any) => Promise<void>;
   updateProduct: (id: string, data: any) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
+  reorder: (type: string, items: { id: string; order: number }[]) => Promise<void>;
 }
 
 const getAuthHeader = () => ({
@@ -135,6 +136,10 @@ export const useMenuStore = create<MenuState>()(
       },
       deleteProduct: async (id) => {
         await axios.delete(`/api/admin/products/${id}`, getAuthHeader());
+        await get().fetchMenu(true);
+      },
+      reorder: async (type, items) => {
+        await axios.post('/api/admin/reorder', { type, items }, getAuthHeader());
         await get().fetchMenu(true);
       },
     }),

@@ -11,6 +11,7 @@ import {
   Search
 } from 'lucide-react';
 import { useMenuStore } from '@/store/menuStore';
+import toast from 'react-hot-toast';
 
 // Import Modals
 import ProductModal from '@/components/admin/ProductModal';
@@ -37,15 +38,27 @@ export default function ProductsPage() {
 
   const handleSave = async (data: any) => {
     const { mode, data: initialData } = modalState;
-    if (mode === 'add') await createProduct(data);
-    else await updateProduct(initialData._id, data);
-    setModalState({ type: null, mode: null, data: null });
+    const loadingToast = toast.loading(`${mode === 'add' ? 'Creating' : 'Updating'} product...`);
+    try {
+      if (mode === 'add') await createProduct(data);
+      else await updateProduct(initialData._id, data);
+      toast.success(`Product ${mode === 'add' ? 'created' : 'updated'} successfully`, { id: loadingToast });
+      setModalState({ type: null, mode: null, data: null });
+    } catch (error) {
+      toast.error(`Failed to ${mode === 'add' ? 'create' : 'update'} product`, { id: loadingToast });
+    }
   };
 
   const handleDelete = async () => {
     const { data } = modalState;
-    await deleteProduct(data.id);
-    setModalState({ type: null, mode: null, data: null });
+    const loadingToast = toast.loading('Deleting product...');
+    try {
+      await deleteProduct(data.id);
+      toast.success('Product deleted successfully', { id: loadingToast });
+      setModalState({ type: null, mode: null, data: null });
+    } catch (error) {
+      toast.error('Failed to delete product', { id: loadingToast });
+    }
   };
 
   const filteredMenu = filterCategory === 'all' 
