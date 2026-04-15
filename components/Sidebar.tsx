@@ -1,9 +1,11 @@
 'use client';
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, Globe } from "lucide-react";
+import { X, Phone, Globe, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useMenuStore } from "@/store/menuStore";
+import { useSettingsStore } from "@/store/settingsStore";
+import { useEffect } from "react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,12 +15,25 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { t, i18n } = useTranslation();
   const { menu } = useMenuStore();
+  const { settings, fetchSettings, loading } = useSettingsStore();
   const lang = (i18n.language === "pl" ? "pl" : "en") as "pl" | "en";
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchSettings();
+    }
+  }, [isOpen, fetchSettings]);
 
   const navLinks = menu.map(cat => ({
     name: cat.title[lang],
     href: `#${cat.anchorId}`
   }));
+
+  const phoneNumber = settings.phone || t("common.phone");
+
+  const handleBookTable = () => {
+    window.location.href = `tel:${phoneNumber}`;
+  };
 
   return (
     <AnimatePresence>
@@ -74,13 +89,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   {t("common.address")}
                 </span>
               </div>
-              <a
-                href={`tel:${t("common.phone")}`}
+              <button
+                onClick={handleBookTable}
                 className="flex items-center justify-center gap-2 w-full bg-primary text-black py-4 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all hover:scale-[1.02] shadow-xl shadow-primary/20"
               >
-                <Phone size={14} />
+                {loading ? <Loader2 size={14} className="animate-spin" /> : <Phone size={14} />}
                 {t("common.bookTable")}
-              </a>
+              </button>
             </div>
           </motion.div>
         </>

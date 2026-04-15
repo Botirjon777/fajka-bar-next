@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Trash2, Edit3, Loader2, FolderPlus } from "lucide-react";
 import { useMenuStore } from "@/store/menuStore";
+import toast from "react-hot-toast";
 
 // Import Modals
 import CategoryModal from "@/components/admin/CategoryModal";
@@ -36,21 +37,33 @@ export default function CategoriesPage() {
 
   const handleSave = async (data: any) => {
     const { type, mode, data: initialData } = modalState;
-    if (type === "category") {
-      if (mode === "add") await createCategory(data);
-      else await updateCategory(initialData._id, data);
-    } else if (type === "subcategory") {
-      if (mode === "add") await createSubcategory(data);
-      else await updateSubcategory(initialData._id, data);
+    const loadingToast = toast.loading(`Saving ${type}...`);
+    try {
+      if (type === "category") {
+        if (mode === "add") await createCategory(data);
+        else await updateCategory(initialData._id, data);
+      } else if (type === "subcategory") {
+        if (mode === "add") await createSubcategory(data);
+        else await updateSubcategory(initialData._id, data);
+      }
+      toast.success(`${type} saved successfully`, { id: loadingToast });
+      setModalState({ type: null, mode: null, data: null });
+    } catch (error) {
+      toast.error(`Failed to save ${type}`, { id: loadingToast });
     }
-    setModalState({ type: null, mode: null, data: null });
   };
 
   const handleDelete = async () => {
     const { data } = modalState;
-    if (data.type === "category") await deleteCategory(data.id);
-    else if (data.type === "subcategory") await deleteSubcategory(data.id);
-    setModalState({ type: null, mode: null, data: null });
+    const loadingToast = toast.loading(`Deleting ${data.type}...`);
+    try {
+      if (data.type === "category") await deleteCategory(data.id);
+      else if (data.type === "subcategory") await deleteSubcategory(data.id);
+      toast.success(`${data.type} deleted`, { id: loadingToast });
+      setModalState({ type: null, mode: null, data: null });
+    } catch (error) {
+      toast.error(`Failed to delete ${data.type}`, { id: loadingToast });
+    }
   };
 
   return (
